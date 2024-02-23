@@ -1,7 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -13,20 +13,23 @@ body {
     align-items: center;
     text-align: center;
     background-color: rgb(82, 195, 26);
-    padding: 50px 0;
+    padding: 30px 0; /* Adjusted padding */
 }
 
 #closeBtn {
     background-color: black;
     color: white;
-    border: none; 
-    padding: 10px 20px; 
-    margin-top: 10px; 
+    border: none;  
     cursor: pointer;
+    margin-bottom: 15px; /* Adjusted margin */
+}
+
+#itemimage {
+    margin: 15px; /* Adjusted margin */
 }
 
 button {
-    width: 30%;
+    width: 15%;
     height: 50px;
     font-size: 16px;
     cursor: pointer;
@@ -34,22 +37,22 @@ button {
     color: black;
     font-size: 30px;
     background-color: white;
- 
-
+    margin-top: 15px; /* Adjusted margin */
 }
 
 img {
     width: 30%;
-
+    margin-bottom: 15px; /* Adjusted margin */
 }
 
 #result {
-   
     font-size: 18px;
     color: white;
+    margin-top: 15px; /* Adjusted margin */
 }
 
 p {
     font-size: 30px;
     color: white;
+    margin-bottom: 15px; /* Adjusted margin */
 }

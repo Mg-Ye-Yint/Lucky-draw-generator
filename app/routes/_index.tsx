@@ -58,7 +58,7 @@ export default function Index() {
     <div id="container">
       <p>Which reward will you get?</p>
 
-      <img id="chart" src="/chart (1).png" alt="Wheel" />
+      {toggle ? "" : <img id="chart" src="/chart (1).png" alt="Wheel" />}
 
       <p id="appleWatch">
         Apple Watch ={" "}
@@ -77,15 +77,15 @@ export default function Index() {
         </span>{" "}
       </p>
       <p>1,100 Baht = unlimited item left</p>
-
-      {toggle ? (
-        won === null ? null : (
-          <img src={won.imageUrl} alt=""></img>
-        )
-      ) : (
-        ""
-      )}
-
+      <div className="itemimage">
+        {toggle ? (
+          won === null ? null : (
+            <img src={won.imageUrl} alt=""></img>
+          )
+        ) : (
+          ""
+        )}
+      </div>
       <button onClick={onClick} id="button">
         {toggle ? "close" : "spin"}
       </button>
