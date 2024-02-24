@@ -1,31 +1,43 @@
+
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Wendy One", sans-serif;
     margin: 0;
     padding: 0;
+    height: auto;
     box-sizing: border-box;
+    background: linear-gradient(to right, rgb(5, 155, 22), rgb(0, 60, 255));
 }
+
 
 #container {
     width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: rgb(82, 195, 26);
-    padding: 30px 0; /* Adjusted padding */
+    background: linear-gradient(to right, rgb(5, 155, 22), rgb(0, 60, 255));
+    padding: 30px 0; 
 }
+
+.lover {
+    font-size: 3em;
+    color: white;
+    padding: 5px; 
+}
+
 
 #closeBtn {
     background-color: black;
     color: white;
     border: none;  
     cursor: pointer;
-    margin-bottom: 15px; /* Adjusted margin */
+    margin-bottom: 15px; 
 }
 
 #itemimage {
-    margin: 15px; /* Adjusted margin */
+    margin: 15px; 
 }
 
 button {
@@ -35,24 +47,169 @@ button {
     cursor: pointer;
     border-radius: 20px;
     color: black;
-    font-size: 30px;
     background-color: white;
-    margin-top: 15px; /* Adjusted margin */
+    margin-top: 15px; 
 }
 
 img {
     width: 30%;
-    margin-bottom: 15px; /* Adjusted margin */
+    margin-bottom: 15px; 
 }
+
+
+.mainimg {
+    max-width: 500px;
+    max-height: 500px;
+    width: 350px;
+    height: 350px; 
+ }
 
 #result {
     font-size: 18px;
     color: white;
-    margin-top: 15px; /* Adjusted margin */
+    margin-top: 15px; 
+}
+
+.mydiv{
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align:bottom
 }
 
 p {
     font-size: 30px;
     color: white;
-    margin-bottom: 15px; /* Adjusted margin */
+    margin-bottom: 15px; 
+}
+
+.Adder {
+    display: flex;
+    width: 500px; /* Set a fixed width */
+    height: 150px;
+    background-color: #ffdab9;
+    border-radius: 20px;
+    color: rgb(29, 1, 6);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+}
+
+.Adder > label {
+    font-size: 1.5em;
+    height: 50px;
+    width: 200px;
+}
+
+.Adder > label > input {
+    width: 200px;
+    height: 50px;
+    font-size: 1.5em;
+}
+
+.addbutton {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-top: 30px;
+    margin-left: 20px;
+    width: 70px;
+    height: 50px;
+}
+
+.deletebutton{
+    display: inline-block;
+    vertical-align: bottom;
+    width: 25px;
+    height: 25px;
+}
+
+.deletebutton:hover {
+    background-color: red;
+    color: white;
+   
+}
+
+
+.addbutton:hover{
+    background-color: #40e0d0;
+    color: #d2691e;
+    color: black;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.spinbutton {
+    width: 500px;
+}
+
+
+.infinitybutton{
+    width: 100px;
+    display: inline-block;
+}
+
+.infinitybutton:hover{
+    background-color: #808000;
+    color: #e0ffff;
+}
+
+.thistext {
+    font-size: 1.5em;
+    display: inline-block;
+}
+
+.thistext2{
+    font-size: 1.24em;
+}
+
+.quantity-input-container {
+    align-items: center;
+  }
+
+.resulttext{
+    font-size: 4em;
+    color: #d40000;
+    background-color: #c0c0c0;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.secimg {
+    height: 300px;
+    width: 500px;
+}
+
+.buttonimg{
+    padding-top: 20px;
+    height: 150px;
+    width: 150px;
+}
+
+.buttonimg:active{
+    transform: translate(-2px, -2px);
+}
+
+.repeat{
+    padding-top: 20px;
+    height: 150px;
+    width: 150px;
+}
+
+.repeat:active{
+    transform: translate(-2px, -2px);
+}
+
+.tips{
+    color: #800080;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding: 5px;
+    
+}
+
+.tipsContainer {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #e6e6fa;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
 }
