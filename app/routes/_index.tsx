@@ -99,16 +99,18 @@ const editProduct = (index) => {
 const removeItem = (index) => {
   const updatedProducts = [...products];
   updatedProducts.splice(index, 1);
-  setProducts(updatedProducts);
 
-  if (editingIndex === index) {
-      setEditingIndex(null);
-      setIsDisabled(false); 
-  } else if (editingIndex !== null && index < editingIndex) {
-      setEditingIndex(editingIndex - 1);
+  if (editingIndex !== null) {
+      if (index === editingIndex) {
+          setEditingIndex(null);
+          setIsDisabled(false);
+      } else if (index < editingIndex) {
+          setEditingIndex(editingIndex - 1);
+      }
   }
-};
 
+  setProducts(updatedProducts);
+};
   const toggleInfinity = () => {
     setNewItem((prevItem) => ({
       ...prevItem,
@@ -168,18 +170,18 @@ const removeItem = (index) => {
 
 {products.map((product, index) => (
     <div key={index}>
-       <p onClick={isDisabled ? null : () => editItem(index)} style={{ background: product.background }}>
+       <p style={{ background: product.background }}>
             {product.name} ={" "}
             <span className="mydiv">
                 {product.quantity === 0
                     ? "Out of stock"
                     : product.quantity === Infinity
-                    ? "Unlimited Items left"
-                    : product.quantity > 1
-                    ? product.quantity + " items left"
-                    : product.quantity + " item left"}
+                        ? "Unlimited Items left"
+                        : product.quantity > 1
+                            ? product.quantity + " items left"
+                            : product.quantity + " item left"}
                 {" "}
-                <button className="editbutton" onClick={(e) => { e.stopPropagation(); editItem(index); }}>Edit</button>
+                <button className="editbutton" onClick={() => editItem(index)}>Edit</button>
                 <button className="deletebutton" onClick={() => removeItem(index)}>X</button>
             </span>
         </p>
