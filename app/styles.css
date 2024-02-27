@@ -21,10 +21,11 @@ body {
     padding: 30px 0; 
 }
 
-.lover {
+.headtext {
     font-size: 3em;
     color: white;
     padding: 5px; 
+    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -63,6 +64,8 @@ img {
     width: 350px;
     height: 350px; 
  }
+
+ 
 
 #result {
     font-size: 18px;
@@ -113,6 +116,7 @@ p {
     margin-left: 20px;
     width: 70px;
     height: 50px;
+    font-family: "Itim", cursive;
 }
 
 .deletebutton{
@@ -120,11 +124,27 @@ p {
     vertical-align: bottom;
     width: 25px;
     height: 25px;
+    position: relative;
+    right: -5px;
+    font-family: "Itim", cursive;
 }
 
 .deletebutton:hover {
     background-color: red;
     color: white;
+}
+
+.editbutton{
+    display: inline-block;
+    vertical-align: bottom;
+    width: 50px;
+    height: 25px;
+    font-family: "Itim", cursive;
+}
+
+.editbutton:hover {
+    background-color: #32CD32;
+    color: #333333;
    
 }
 
@@ -145,6 +165,7 @@ p {
 .infinitybutton{
     width: 100px;
     display: inline-block;
+    font-family: "Itim", cursive;
 }
 
 .infinitybutton:hover{
@@ -203,7 +224,7 @@ p {
     padding-left: 5px;
     padding-right: 5px;
     padding: 5px;
-    
+    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .tipsContainer {
@@ -212,4 +233,62 @@ p {
     background-color: #e6e6fa;
     border-radius: 20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.copyright{
+    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.Editor{
+    display: flex;
+    width: 500px; 
+    height: 75px;
+    background-color: #d58742;
+    border-radius: 20px;
+    color: rgb(29, 1, 6);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.changebutton{
+    font-size: 0.75em;
+    margin-top: 30px;
+    margin-left: 4px;
+    width: 50px;
+    height: 30px;
+    font-family: "Itim", cursive;
+}
+
+.infinitybutton2{
+    font-size: 0.75em;
+    width: 75px;
+    height: 20px;
+    display: inline-block;
+    font-family: "Itim", cursive;
+}
+
+.changebutton:hover{
+    background-color: #40e0d0;
+    color: #d2691e;
+    color: black;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.infinitybutton2:hover{
+    background-color: #808000;
+    color: #e0ffff;
+}
+
+.updatebutton{
+    font-size: 0.75em;
+    font-family: "Itim", cursive;
+    width: 50px;
+    height: 25px;
+}
+
+.updatebutton:hover{
+    background-color: #FFA500;
+    color: black;
 }

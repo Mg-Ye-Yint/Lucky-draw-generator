@@ -25,8 +25,15 @@ export default function Index() {
     imageUrl: "",
   });
 
-  const onClick = () => {
-    setToggle(!toggle);
+  const [editable, setEditAble] = useState(false); 
+
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const [newName, setNewName] = useState('');
+  const [newQuantity, setNewQuantity] = useState('');
+  
+  const buttonClick = () => {
 
     let randomProduct: number;
 
@@ -39,18 +46,68 @@ export default function Index() {
     setProducts(updatedProducts);
 
     setWon(products[randomProduct]);
+    setToggle(!toggle);
   };
+  
+  const repeatClick = () => {
+    setToggle(!toggle);
+  }
 
   const action = () => {
     setProducts((previousItems) => [...previousItems, newItem]);
     setNewItem({ name: "", quantity: 0, imageUrl: "" });
   };
+ 
+  const editItem = (index) => {
+    const editproduct = [...products];
 
-  const removeItem = (index) => {
-    const updatedProducts = [...products];
-    updatedProducts.splice(index, 1);
-    setProducts(updatedProducts);
+    if (editingIndex === index) {
+        setEditingIndex(null);
+        editproduct[index].background = 'none'; 
+        setIsDisabled(false);
+    } else {
+        if (editingIndex !== null) {
+            editproduct[editingIndex].background = 'none';
+        }
+        setEditingIndex(index);
+        editproduct[index].background = 'linear-gradient(to right, rgba(5, 155, 22, 0.8), rgba(0, 60, 255, 0.8))';
+        setIsDisabled(true);
+    }
+    setProducts(editproduct);
+};
+
+const handleNameChange = (event) => {
+  setNewName(event.target.value);
+}
+
+const handleQuantityChange = (event) => {
+  setNewQuantity(event.target.value);
+}
+
+const editProduct = (index) => {
+  const updatedProducts = [...products];
+  updatedProducts[index] = {
+      ...updatedProducts[index],
+      name: newName !== '' ? newName : updatedProducts[index].name,
+      quantity: newQuantity !== '' ? newQuantity : updatedProducts[index].quantity
   };
+  setProducts(updatedProducts);
+  setNewName('');
+  setNewQuantity('');
+};
+
+const removeItem = (index) => {
+  const updatedProducts = [...products];
+  updatedProducts.splice(index, 1);
+  setProducts(updatedProducts);
+
+  if (editingIndex === index) {
+      setEditingIndex(null);
+      setIsDisabled(false); 
+  } else if (editingIndex !== null && index < editingIndex) {
+      setEditingIndex(editingIndex - 1);
+  }
+};
 
   const toggleInfinity = () => {
     setNewItem((prevItem) => ({
@@ -64,12 +121,14 @@ export default function Index() {
   };
 
   const tips = () => {
+    const img = event.target;
+    img.style.transform = 'translate(3px, 3px)';
     setTick(!tick);
   };
 
   return (
     <div id="container">
-      <p className="lover">
+      <p className="headtext">
         <b>Customize your own lucky draw</b>
       </p>
 
@@ -107,24 +166,106 @@ export default function Index() {
         ""
       )}
 
-      {products.map((product, index) => (
-        <p key={index}>
-          {product.name} ={" "}
-          <span className="mydiv">
-            {product.quantity === 0
-              ? "Out of stock"
-              : product.quantity === Infinity
-              ? "Unlimited Items left"
-              : product.quantity > 1
-              ? product.quantity + " items left"
-              : product.quantity + " item left"}{" "}
-            <button className="deletebutton" onClick={() => removeItem(index)}>
-              {" "}
-              X{" "}
-            </button>
-          </span>
+{products.map((product, index) => (
+    <div key={index}>
+       <p onClick={isDisabled ? null : () => editItem(index)} style={{ background: product.background }}>
+            {product.name} ={" "}
+            <span className="mydiv">
+                {product.quantity === 0
+                    ? "Out of stock"
+                    : product.quantity === Infinity
+                    ? "Unlimited Items left"
+                    : product.quantity > 1
+                    ? product.quantity + " items left"
+                    : product.quantity + " item left"}
+                {" "}
+                <button className="editbutton" onClick={(e) => { e.stopPropagation(); editItem(index); }}>Edit</button>
+                <button className="deletebutton" onClick={() => removeItem(index)}>X</button>
+            </span>
         </p>
-      ))}
+        {editingIndex === index && (
+                        <div>
+                            <input 
+                                type="text" 
+                                value={newName} 
+                                onChange={handleNameChange} 
+                                placeholder="New Name" 
+                            />
+                            <input 
+                                type="number"
+                                min="0"
+                                value={newQuantity} 
+                                onChange={handleQuantityChange} 
+                                placeholder="New Quantity" 
+                            />
+                            <button 
+                                className="updatebutton" 
+                                onClick={(e) => { e.stopPropagation(); editProduct(index); }} 
+                            >
+                                Update
+                            </button>
+                        </div>
+                    )}
+    </div>
+))}
+
+      {editable? <div className="Editor">
+        <label>
+          Edit Name: 
+          <input
+            type="text"
+            placeholder="name..."
+            value={newItem.name}
+            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+          />
+          <div>
+            <button onClick={cleartext} className="infinitybutton2">
+              Clear
+            </button>
+          </div>
+        </label>
+
+        {newItem.quantity === Infinity ? (
+          <div>
+            <div className="thistext">
+              Edit Quantity: <br />
+              {"           "}
+              <br />
+              <div className="thistext2">Unlimited</div>
+            </div>
+            <button onClick={toggleInfinity} className="infinitybutton">
+              Limited
+            </button>
+          </div>
+        ) : (
+          <label className="quantity-input-container">
+            Quantity:
+            <input
+              type="number"
+              min="1"
+              value={newItem.quantity}
+              onChange={(e) =>
+                setNewItem({ ...newItem, quantity: Number(e.target.value) })
+              }
+            />
+            <div>
+              <button onClick={toggleInfinity} className="infinitybutton2">
+                Unlimited
+              </button>
+            </div>
+          </label>
+        )}
+        {!newItem.name || !newItem.name.trim() || newItem.quantity === 0 ? (
+          <button className="changebutton"> Change </button>
+        ) : (
+          <button className="changebutton" onClick={action}>
+            Change{" "}
+          </button>
+        )}
+      </div>: ""}
+
+
+
       <div className="Adder">
         <label>
           New Item:
@@ -192,25 +333,59 @@ export default function Index() {
           ""
         )}
       </div>
-      {/* <button className="spinbutton" onClick={onClick} id="button">
-        {toggle ? "close" : "spin"}
-      </button> */}
-      <div
-        onClick={onClick}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            onClick();
-          }
-        }}
-        role="button"
-        tabIndex={0}
-      >
-        {toggle ? (
-          <img className="repeat" src="/repeat.png" alt=""></img>
-        ) : (
-          <img className="buttonimg" src="/button.png" alt="" />
-        )}
-      </div>
+      
+{products.length === 0 ? (
+  <div>
+    <img className="buttonimg" src="/button.png" alt="" />
+  </div>
+) : products.every(product => product.quantity === 0) ? (
+  toggle ? (
+    <div
+      onClick={repeatClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          repeatClick();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
+      <img className="repeat" src="/repeat.png" alt="" />
+    </div>
+  ) : (
+    <div>
+      <img className="buttonimg" src="/button.png" alt="" />
+    </div>
+  )
+) : (
+  <div
+    onClick={() => {
+      if (!toggle) {
+        buttonClick();
+      } else {
+        repeatClick();
+      }
+    }}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        if (!toggle) {
+          buttonClick();
+        } else {
+          repeatClick();
+        }
+      }
+    }}
+    role="button"
+    tabIndex={0}
+  >
+    {toggle ? (
+      <img className="repeat" src="/repeat.png" alt="Repeat" />
+    ) : (
+      <img className="buttonimg" src="/button.png" alt="Button" />
+    )}
+  </div>
+)}
+<p className="copyright">&copy; 2024 Ye Yint Thway. All rights reserved.</p>
     </div>
   );
 }
