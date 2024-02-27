@@ -282,13 +282,59 @@ p {
 }
 
 .updatebutton{
-    font-size: 0.75em;
+    font-size: 1em;
     font-family: "Itim", cursive;
-    width: 50px;
-    height: 25px;
+    width: 80px;
+    height: 40px;
+}
+
+.editlimitbutton{
+    font-size: 1em;
+    font-family: "Itim", cursive;
+    width: 80px;
+    height: 40px;
+}
+
+.editlimitbutton:hover{
+    background-color: #808000;
+    color: #e0ffff;
+}
+
+.clearbutton{
+    width: 100px;
+    display: inline-block;
+    font-family: "Itim", cursive;
+}
+
+.clearbutton:hover{
+    background-color: violet;
+    color: black;
 }
 
 .updatebutton:hover{
-    background-color: #FFA500;
+    background-color: #40e0d0;
     color: black;
+}
+
+.EditUnlimitedText{
+    font-size: 1.5em;
+    color: #ffffcc;
+    font-weight: 500;
+}
+
+.numberinput{
+    height: 50px;
+    width: 150px;
+    border-radius: 10px;
+    font-size: 1.35em;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+.textinput{
+    height: 50px;
+    width: 150px;
+    border-radius: 10px;
+    font-size: 1.35em;
+    margin-right: 5px;
+    margin-left: 5px;
 }

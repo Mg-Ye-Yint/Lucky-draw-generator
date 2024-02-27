@@ -25,16 +25,17 @@ export default function Index() {
     imageUrl: "",
   });
 
-  const [editable, setEditAble] = useState(false); 
+  const [editable, setEditAble] = useState(false);
 
   const [editingIndex, setEditingIndex] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const [newName, setNewName] = useState('');
-  const [newQuantity, setNewQuantity] = useState('');
-  
-  const buttonClick = () => {
+  const [newName, setNewName] = useState("");
+  const [newQuantity, setNewQuantity] = useState("");
 
+  const [editlimit, setEditLimit] = useState(false);
+
+  const buttonClick = () => {
     let randomProduct: number;
 
     do {
@@ -48,69 +49,88 @@ export default function Index() {
     setWon(products[randomProduct]);
     setToggle(!toggle);
   };
-  
+
   const repeatClick = () => {
     setToggle(!toggle);
-  }
+  };
 
   const action = () => {
     setProducts((previousItems) => [...previousItems, newItem]);
     setNewItem({ name: "", quantity: 0, imageUrl: "" });
   };
- 
+
   const editItem = (index) => {
     const editproduct = [...products];
 
     if (editingIndex === index) {
-        setEditingIndex(null);
-        editproduct[index].background = 'none'; 
-        setIsDisabled(false);
+      setEditingIndex(null);
+      editproduct[index].background = "none";
+      setIsDisabled(false);
     } else {
-        if (editingIndex !== null) {
-            editproduct[editingIndex].background = 'none';
-        }
-        setEditingIndex(index);
-        editproduct[index].background = 'linear-gradient(to right, rgba(5, 155, 22, 0.8), rgba(0, 60, 255, 0.8))';
-        setIsDisabled(true);
+      if (editingIndex !== null) {
+        editproduct[editingIndex].background = "none";
+      }
+      setEditingIndex(index);
+      editproduct[index].background =
+        "linear-gradient(to right, rgba(5, 155, 22, 0.8), rgba(0, 60, 255, 0.8))";
+      setIsDisabled(true);
     }
     setProducts(editproduct);
-};
-
-const handleNameChange = (event) => {
-  setNewName(event.target.value);
-}
-
-const handleQuantityChange = (event) => {
-  setNewQuantity(event.target.value);
-}
-
-const editProduct = (index) => {
-  const updatedProducts = [...products];
-  updatedProducts[index] = {
-      ...updatedProducts[index],
-      name: newName !== '' ? newName : updatedProducts[index].name,
-      quantity: newQuantity !== '' ? newQuantity : updatedProducts[index].quantity
   };
-  setProducts(updatedProducts);
-  setNewName('');
-  setNewQuantity('');
-};
 
-const removeItem = (index) => {
-  const updatedProducts = [...products];
-  updatedProducts.splice(index, 1);
+  const handleNameChange = (event) => {
+    setNewName(event.target.value);
+  };
 
-  if (editingIndex !== null) {
+  const handleQuantityChange = (event) => {
+    setNewQuantity(event.target.value);
+  };
+
+  const editProduct = (index) => {
+    const updatedProducts = [...products];
+    const updatedProduct = {
+      ...updatedProducts[index],
+      name: newName.trim() !== "" ? newName : updatedProducts[index].name,
+      quantity: editlimit
+        ? Infinity
+        : newQuantity !== ""
+        ? newQuantity
+        : updatedProducts[index].quantity,
+      newProperty: "new value",
+    };
+
+    updatedProducts[index] = updatedProduct;
+
+    setProducts(updatedProducts);
+    setNewName("");
+    setNewQuantity("");
+  };
+
+  const editunlimited = (index) => {
+    // const updatedProducts = [...products];
+    // updatedProducts[index] = {
+    //   ...updatedProducts[index],
+    //   quantity: Infinity,
+    // };
+    // setProducts(updatedProducts);
+    setEditLimit(!editlimit);
+  };
+
+  const removeItem = (index) => {
+    const updatedProducts = [...products];
+    updatedProducts.splice(index, 1);
+
+    if (editingIndex !== null) {
       if (index === editingIndex) {
-          setEditingIndex(null);
-          setIsDisabled(false);
+        setEditingIndex(null);
+        setIsDisabled(false);
       } else if (index < editingIndex) {
-          setEditingIndex(editingIndex - 1);
+        setEditingIndex(editingIndex - 1);
       }
-  }
+    }
 
-  setProducts(updatedProducts);
-};
+    setProducts(updatedProducts);
+  };
   const toggleInfinity = () => {
     setNewItem((prevItem) => ({
       ...prevItem,
@@ -124,7 +144,7 @@ const removeItem = (index) => {
 
   const tips = () => {
     const img = event.target;
-    img.style.transform = 'translate(3px, 3px)';
+    img.style.transform = "translate(3px, 3px)";
     setTick(!tick);
   };
 
@@ -167,106 +187,144 @@ const removeItem = (index) => {
       ) : (
         ""
       )}
-
-{products.map((product, index) => (
-    <div key={index}>
-       <p style={{ background: product.background }}>
+      {products.map((product, index) => (
+        <div key={index}>
+          <p style={{ background: product.background }}>
             {product.name} ={" "}
             <span className="mydiv">
-                {product.quantity === 0
-                    ? "Out of stock"
-                    : product.quantity === Infinity
-                        ? "Unlimited Items left"
-                        : product.quantity > 1
-                            ? product.quantity + " items left"
-                            : product.quantity + " item left"}
-                {" "}
-                <button className="editbutton" onClick={() => editItem(index)}>Edit</button>
-                <button className="deletebutton" onClick={() => removeItem(index)}>X</button>
+              {product.quantity == 0
+                ? "Out of stock"
+                : product.quantity === Infinity
+                ? "Unlimited Items left"
+                : product.quantity > 1
+                ? product.quantity + " items left"
+                : product.quantity + " item left"}{" "}
+              <button className="editbutton" onClick={() => editItem(index)}>
+                Edit
+              </button>
+              <button
+                className="deletebutton"
+                onClick={() => removeItem(index)}
+              >
+                X
+              </button>
             </span>
-        </p>
-        {editingIndex === index && (
-                        <div>
-                            <input 
-                                type="text" 
-                                value={newName} 
-                                onChange={handleNameChange} 
-                                placeholder="New Name" 
-                            />
-                            <input 
-                                type="number"
-                                min="0"
-                                value={newQuantity} 
-                                onChange={handleQuantityChange} 
-                                placeholder="New Quantity" 
-                            />
-                            <button 
-                                className="updatebutton" 
-                                onClick={(e) => { e.stopPropagation(); editProduct(index); }} 
-                            >
-                                Update
-                            </button>
-                        </div>
-                    )}
-    </div>
-))}
-
-      {editable? <div className="Editor">
-        <label>
-          Edit Name: 
-          <input
-            type="text"
-            placeholder="name..."
-            value={newItem.name}
-            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-          />
-          <div>
-            <button onClick={cleartext} className="infinitybutton2">
-              Clear
-            </button>
-          </div>
-        </label>
-
-        {newItem.quantity === Infinity ? (
-          <div>
-            <div className="thistext">
-              Edit Quantity: <br />
-              {"           "}
-              <br />
-              <div className="thistext2">Unlimited</div>
+          </p>
+          {editingIndex === index && (
+            <div>
+              {editlimit ? (
+                <button
+                  className="editlimitbutton"
+                  onClick={() => editunlimited(index)}
+                >
+                  Limited
+                </button>
+              ) : (
+                <button
+                  className="editlimitbutton"
+                  onClick={() => editunlimited(index)}
+                >
+                  Unlimited
+                </button>
+              )}
+              <input
+                type="text"
+                className="textinput"
+                value={newName}
+                onChange={handleNameChange}
+                placeholder="New Name"
+              />
+              {editlimit ? (
+                <>
+                  {" "}
+                  <p className="EditUnlimitedText">
+                    {" "}
+                    Unlimited <br />
+                    quantity
+                  </p>
+                </>
+              ) : (
+                <input
+                  type="number"
+                  min="0"
+                  value={editlimit ? "Infinity" : newQuantity}
+                  onChange={handleQuantityChange}
+                  placeholder="New Quantity"
+                  className="numberinput"
+                />
+              )}
+              <button
+                className="updatebutton"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  editProduct(index);
+                }}
+              >
+                Update
+              </button>
             </div>
-            <button onClick={toggleInfinity} className="infinitybutton">
-              Limited
-            </button>
-          </div>
-        ) : (
-          <label className="quantity-input-container">
-            Quantity:
+          )}
+        </div>
+      ))}
+
+      {editable ? (
+        <div className="Editor">
+          <label>
+            Edit Name:
             <input
-              type="number"
-              min="1"
-              value={newItem.quantity}
-              onChange={(e) =>
-                setNewItem({ ...newItem, quantity: Number(e.target.value) })
-              }
+              type="text"
+              placeholder="name..."
+              value={newItem.name}
+              onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
             />
             <div>
-              <button onClick={toggleInfinity} className="infinitybutton2">
-                Unlimited
+              <button onClick={cleartext} className="infinitybutton2">
+                Clear
               </button>
             </div>
           </label>
-        )}
-        {!newItem.name || !newItem.name.trim() || newItem.quantity === 0 ? (
-          <button className="changebutton"> Change </button>
-        ) : (
-          <button className="changebutton" onClick={action}>
-            Change{" "}
-          </button>
-        )}
-      </div>: ""}
 
-
+          {newItem.quantity === Infinity ? (
+            <div>
+              <div className="thistext">
+                Edit Quantity: <br />
+                {"           "}
+                <br />
+                <div className="thistext2">Unlimited</div>
+              </div>
+              <button onClick={toggleInfinity} className="infinitybutton">
+                Limited
+              </button>
+            </div>
+          ) : (
+            <label className="quantity-input-container">
+              Quantity:
+              <input
+                type="number"
+                min="1"
+                value={newItem.quantity}
+                onChange={(e) =>
+                  setNewItem({ ...newItem, quantity: Number(e.target.value) })
+                }
+              />
+              <div>
+                <button onClick={toggleInfinity} className="infinitybutton2">
+                  Unlimited
+                </button>
+              </div>
+            </label>
+          )}
+          {!newItem.name || !newItem.name.trim() || newItem.quantity === 0 ? (
+            <button className="changebutton"> Change </button>
+          ) : (
+            <button className="changebutton" onClick={action}>
+              Change{" "}
+            </button>
+          )}
+        </div>
+      ) : (
+        ""
+      )}
 
       <div className="Adder">
         <label>
@@ -278,7 +336,7 @@ const removeItem = (index) => {
             onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
           />
           <div>
-            <button onClick={cleartext} className="infinitybutton">
+            <button onClick={cleartext} className="clearbutton">
               Clear
             </button>
           </div>
@@ -335,59 +393,61 @@ const removeItem = (index) => {
           ""
         )}
       </div>
-      
-{products.length === 0 ? (
-  <div>
-    <img className="buttonimg" src="/button.png" alt="" />
-  </div>
-) : products.every(product => product.quantity === 0) ? (
-  toggle ? (
-    <div
-      onClick={repeatClick}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          repeatClick();
-        }
-      }}
-      role="button"
-      tabIndex={0}
-    >
-      <img className="repeat" src="/repeat.png" alt="" />
-    </div>
-  ) : (
-    <div>
-      <img className="buttonimg" src="/button.png" alt="" />
-    </div>
-  )
-) : (
-  <div
-    onClick={() => {
-      if (!toggle) {
-        buttonClick();
-      } else {
-        repeatClick();
-      }
-    }}
-    onKeyDown={(e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        if (!toggle) {
-          buttonClick();
-        } else {
-          repeatClick();
-        }
-      }
-    }}
-    role="button"
-    tabIndex={0}
-  >
-    {toggle ? (
-      <img className="repeat" src="/repeat.png" alt="Repeat" />
-    ) : (
-      <img className="buttonimg" src="/button.png" alt="Button" />
-    )}
-  </div>
-)}
-<p className="copyright">&copy; 2024 Ye Yint Thway. All rights reserved.</p>
+
+      {products.length === 0 ? (
+        <div>
+          <img className="buttonimg" src="/button.png" alt="" />
+        </div>
+      ) : products.every((product) => product.quantity === 0) ? (
+        toggle ? (
+          <div
+            onClick={repeatClick}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                repeatClick();
+              }
+            }}
+            role="button"
+            tabIndex={0}
+          >
+            <img className="repeat" src="/repeat.png" alt="" />
+          </div>
+        ) : (
+          <div>
+            <img className="buttonimg" src="/button.png" alt="" />
+          </div>
+        )
+      ) : (
+        <div
+          onClick={() => {
+            if (!toggle) {
+              buttonClick();
+            } else {
+              repeatClick();
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              if (!toggle) {
+                buttonClick();
+              } else {
+                repeatClick();
+              }
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
+          {toggle ? (
+            <img className="repeat" src="/repeat.png" alt="Repeat" />
+          ) : (
+            <img className="buttonimg" src="/button.png" alt="Button" />
+          )}
+        </div>
+      )}
+      <p className="copyright">
+        &copy; 2024 Ye Yint Thway. All rights reserved.
+      </p>
     </div>
   );
 }
